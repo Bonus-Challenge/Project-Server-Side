@@ -1,4 +1,7 @@
 package engine;
+
+import java.util.Dictionary;
+import java.util.Hashtable;
 /*
  * @author MCSH
  * 
@@ -6,4 +9,5 @@ package engine;
  */
 public class Assets {
 	public static String saveFileLocation;
+	public static Dictionary<String, String> env = new Hashtable<String, String>();
 }
