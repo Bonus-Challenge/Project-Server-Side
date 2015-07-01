@@ -11,6 +11,8 @@ public class FileTest {
 	public static void test() {
 		Assets.saveFileLocation = "/home/sajjad/.pss";
 		MFile file = new MFile("test");
+		//file.setAccess(0777);
+		System.out.println(file.getAccess());
 		file.getF().getParentFile().mkdirs();
 		if (!file.getF().exists()) {
 			System.out.println("here dudy");
