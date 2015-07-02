@@ -11,6 +11,7 @@ public class FileTest {
 	public static void test() {
 		Assets.saveFileLocation = "/home/sajjad/.pss";
 		MFile file = new MFile("test");
+		System.out.println(file.getF().getAbsolutePath());
 		//file.setAccess(0777);
 		System.out.println(file.getAccess());
 		file.getF().getParentFile().mkdirs();
