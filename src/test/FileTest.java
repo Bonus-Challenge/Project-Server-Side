@@ -3,6 +3,7 @@ package test;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import engine.Assets;
 import filesys.MFile;
@@ -12,7 +13,7 @@ public class FileTest {
 		Assets.saveFileLocation = "/home/sajjad/.pss";
 		MFile file = new MFile("test");
 		System.out.println(file.getF().getAbsolutePath());
-		//file.setAccess(0777);
+		// file.setAccess(0777);
 		System.out.println(file.getAccess());
 		file.getF().getParentFile().mkdirs();
 		if (!file.getF().exists()) {
