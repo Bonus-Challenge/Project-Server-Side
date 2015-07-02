@@ -9,7 +9,52 @@ import filesys.MFile;
 
 public class Exec {
 
+	private String[] _args;
+	private Dictionary<String, String> _env;
+
+	private String process(String string) {
+		String ans = "";
+		int last = 0, end = string.length();
+
+		int t = string.indexOf('$', last);
+		ans += string.substring(0, t);
+
+		while (string.indexOf('$', last) != -1) {
+			last = string.indexOf('$', last);
+			if (last > 0 && string.charAt(last - 1) != '\\') {
+				end = string.length();
+				for (int i = last; i < string.length(); i++) {
+					char tmp = string.charAt(i);
+					if (tmp == '/' || tmp == ' ') {
+						end = i;
+					}
+				}
+
+				String var = string.substring(last + 1, end);
+				last = end;
+				try {
+					try {
+						int v = Integer.valueOf(var);
+						ans += _args[v];
+					} catch (NumberFormatException e) {
+						ans += _env.get(var);
+					}
+				} catch (IndexOutOfBoundsException e) {
+
+				}
+			}
+		}
+
+		ans += string.substring(end);
+
+		return ans;
+	}
+
 	public Exec(MFile mFile, String[] args, Dictionary<String, String> env) {
+
+		_args = args;
+		_env = env;
+
 		// TODO Auto-generated constructor stub
 		ArrayList<String> lines = new ArrayList<String>();
 		Scanner scn = null;
@@ -54,6 +99,9 @@ public class Exec {
 						nArgs.add(splits[j].substring(1));
 
 					} else {
+
+						splits[j] = process(splits[j]);
+
 						nArgs.add(splits[j]);
 					}
 				} else {
