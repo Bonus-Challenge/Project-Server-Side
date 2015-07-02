@@ -10,4 +10,9 @@ import java.util.Hashtable;
 public class Assets {
 	public static String saveFileLocation;
 	public static Dictionary<String, String> env = new Hashtable<String, String>();
+	
+	
+	static {
+		env.put("PWD", "/");		//Current location
+	}
 }
