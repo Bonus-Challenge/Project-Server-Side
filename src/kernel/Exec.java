@@ -12,46 +12,6 @@ public class Exec {
 	private String[] _args;
 	private Dictionary<String, String> _env;
 
-	private String process(String string) {
-		String ans = "";
-		int last = 0, end = string.length();
-
-		int t = string.indexOf('$', last);
-		ans += string.substring(0, t);
-
-		while (string.indexOf('$', last) != -1) {
-			last = string.indexOf('$', last);
-			if (last == 0 || (last > 0 && string.charAt(last - 1) != '\\')) {
-				end = string.length();
-
-				for (int i = last; i < string.length(); i++) {
-					char tmp = string.charAt(i);
-					if (tmp == '/' || tmp == ' ') {
-						end = i;
-					}
-				}
-
-				String var = string.substring(last + 1, end);
-				last = end;
-				try {
-					try {
-						int v = Integer.valueOf(var);
-						ans += _args[v];
-					} catch (NumberFormatException e) {
-						System.out.println(var);
-						ans += _env.get(var);
-					}
-				} catch (IndexOutOfBoundsException e) {
-
-				}
-			}
-		}
-
-		ans += string.substring(end);
-
-		return ans;
-	}
-
 	public Exec(MFile mFile, String[] args, Dictionary<String, String> env) {
 
 		_args = args;
@@ -102,7 +62,7 @@ public class Exec {
 
 					} else {
 
-						splits[j] = process(splits[j]);
+						splits[j] = Task.process(splits[j], _args, _env);
 
 						nArgs.add(splits[j]);
 					}

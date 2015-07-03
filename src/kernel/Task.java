@@ -11,7 +11,8 @@ public class Task {
 	private String[] _args;
 	private Dictionary<String, String> _env;
 
-	private String process(String string) {
+	public static String process(String string, String[] _args,
+			Dictionary<String, String> _env) {
 		String ans = "";
 		int last = 0, end = string.length();
 
@@ -82,7 +83,7 @@ public class Task {
 	public Task(String task, String[] args, Dictionary<String, String> env) {
 		_env = env;
 		_args = args;
-		task = process(task);
+		task = process(task, args, env);
 
 		System.out.println(task);// TODO:
 
