@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import kernel.Task;
 import engine.Assets;
 import filesys.MFile;
 
 public class FileTest {
 	public static void test() {
+
 		Assets.saveFileLocation = "/home/sajjad/.pss";
 		MFile file = new MFile("test");
 		System.out.println(file.getF().getAbsolutePath());
@@ -34,6 +36,8 @@ public class FileTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		new Task("$?", new String[0], Assets.env);
 
 	}
 }

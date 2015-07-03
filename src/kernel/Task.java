@@ -11,6 +11,46 @@ public class Task {
 	private String[] _args;
 	private Dictionary<String, String> _env;
 
+	private String process(String string) {
+		String ans = "";
+		int last = 0, end = string.length();
+
+		int t = string.indexOf('$', last);
+		ans += string.substring(0, t);
+
+		while (string.indexOf('$', last) != -1) {
+			last = string.indexOf('$', last);
+			if (last == 0 || (last > 0 && string.charAt(last - 1) != '\\')) {
+				end = string.length();
+
+				for (int i = last; i < string.length(); i++) {
+					char tmp = string.charAt(i);
+					if (tmp == '/' || tmp == ' ') {
+						end = i;
+					}
+				}
+
+				String var = string.substring(last + 1, end);
+				last = end;
+				try {
+					try {
+						int v = Integer.valueOf(var);
+						ans += _args[v];
+					} catch (NumberFormatException e) {
+						System.out.println(var);
+						ans += _env.get(var);
+					}
+				} catch (IndexOutOfBoundsException e) {
+
+				}
+			}
+		}
+
+		ans += string.substring(end);
+
+		return ans;
+	}
+
 	private boolean is_runnable(String t) {
 		MFile file = new MFile(t);
 		if (file.getF().exists()) {
@@ -40,9 +80,13 @@ public class Task {
 	}
 
 	public Task(String task, String[] args, Dictionary<String, String> env) {
-		_args = args;
-		_task = task;
 		_env = env;
+		_args = args;
+		task = process(task);
+
+		System.out.println(task);// TODO:
+
+		_task = task;
 
 		// TODO: Set ? in env as return status of last app
 		// TODO: Check path in env

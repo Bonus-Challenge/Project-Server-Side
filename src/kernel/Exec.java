@@ -21,8 +21,9 @@ public class Exec {
 
 		while (string.indexOf('$', last) != -1) {
 			last = string.indexOf('$', last);
-			if (last > 0 && string.charAt(last - 1) != '\\') {
+			if (last == 0 || (last > 0 && string.charAt(last - 1) != '\\')) {
 				end = string.length();
+
 				for (int i = last; i < string.length(); i++) {
 					char tmp = string.charAt(i);
 					if (tmp == '/' || tmp == ' ') {
@@ -37,6 +38,7 @@ public class Exec {
 						int v = Integer.valueOf(var);
 						ans += _args[v];
 					} catch (NumberFormatException e) {
+						System.out.println(var);
 						ans += _env.get(var);
 					}
 				} catch (IndexOutOfBoundsException e) {
